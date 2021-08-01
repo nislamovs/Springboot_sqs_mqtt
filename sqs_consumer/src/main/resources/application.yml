@@ -1,0 +1,18 @@
+application:
+  developer: Nizami Islamovs
+  version: v 1.0.0
+  deploymentdate: 2018-09-11 21:15:29
+  support.email: nizamiislamovs@gmail.com
+  description: SQS consumer mcs
+  title: SQS consumer mcs
+
+mqtt-properties:
+  host: tcp://127.0.0.1:1883
+  clientId: Server
+  username: mosquitto
+  password:
+  cleanSession: false
+  connectionTimeout: 300
+  keepAliveInterval: 60
+  # If this property is set to true, the connection will be automatically reconnected when disconnected
+  automaticReconnect: true

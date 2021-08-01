@@ -1,0 +1,37 @@
+application:
+  developer: Nizami Islamovs
+  version: v 1.0.0
+  deploymentdate: 2018-09-11 21:15:29
+  support.email: nizamiislamovs@gmail.com
+  description: SQS publisher mcs
+  title: SQS publisher mcs
+
+application.support.email: "nizami.islamovs@gmail.com"
+
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"
+      exposure:
+        include: "*"
+      cors:
+        allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+        max-age: 3600s
+        #        allowed-origins: '*'
+        allow-credentials: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui-custom.html
+    operationsSorter: method
+
+cloud:
+  aws:
+    region:
+      static: eu-central-1
+      auto: false
+    credentials:
+      access-key: notValidKey
+      secret-key: notValidSecret
+    end-point:
+      uri: http://sqs-queue:9324/queue/mqtt_queue

@@ -1,0 +1,18 @@
+producer functionality
+-- webflux endpoints
+-- spring sqs publisher
+-- swagger
+-- unit tests
+
+consumer functionality
+-- spring sqs consumer
+-- mqtt client
+
+readme
+
+-- mention mqtt explorer - installation guide
+-- list of ports
+-- building guidelines
+-- tech stack
+
+

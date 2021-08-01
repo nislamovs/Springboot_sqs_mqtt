@@ -1,0 +1,101 @@
+buildscript {
+	ext {
+		springBootVersion = '2.5.3'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'application'
+	id "io.freefair.lombok" version "4.1.6"
+
+	id 'org.springframework.boot' version '2.5.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+
+	id 'com.palantir.docker' version '0.25.0'
+	id 'com.palantir.docker-run' version '0.25.0'
+	id 'java'
+}
+
+group = 'com.example'
+version = '1.0.0'
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
+
+apply plugin: 'org.springframework.boot'
+
+wrapper {
+	distributionType = Wrapper.DistributionType.ALL
+	gradleVersion = '6.8.1'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url 'https://jitpack.io' }
+}
+
+ext {
+	springCloudVersion = 'Finchley.M8'
+}
+
+mainClassName = 'SqsProducerApplication'
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	implementation("org.springframework.boot:spring-boot-starter-webflux")
+	implementation 'org.springdoc:springdoc-openapi-webflux-core:1.5.4'
+	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.5.4'
+
+	implementation('org.springframework.cloud:spring-cloud-starter-aws-messaging')
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootJar {
+	archiveBaseName = 'sqsProducerApp'
+	archiveVersion =  '1.0.0'
+}
+
+task unpack(type: Copy) {
+	dependsOn bootJar
+	from(zipTree("build/libs/sqsProducerApp-1.0.0.jar"))
+	into("build/dependency")
+}
+
+docker {
+	name "sqsproducerapp"
+	copySpec.from(tasks.unpack.outputs).into("dependency")
+	buildArgs(['DEPENDENCY': "dependency"])
+}
+
+dockerRun {
+	name  "sqsProducerApp"
+	image "sqsProducerApp-1.0.0"
+	clean true
+}
