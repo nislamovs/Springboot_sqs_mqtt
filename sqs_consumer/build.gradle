@@ -1,12 +1,38 @@
+buildscript {
+	ext {
+		springBootVersion = '2.5.3'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
 plugins {
+	id 'application'
+	id "io.freefair.lombok" version "4.1.6"
+
 	id 'org.springframework.boot' version '2.5.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+
+	id 'com.palantir.docker' version '0.25.0'
+	id 'com.palantir.docker-run' version '0.25.0'
 	id 'java'
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+version = '1.0.0'
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
+
+apply plugin: 'org.springframework.boot'
+
+wrapper {
+	distributionType = Wrapper.DistributionType.ALL
+	gradleVersion = '6.8.1'
+}
 
 configurations {
 	compileOnly {
@@ -16,16 +42,61 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url 'https://jitpack.io' }
 }
 
+ext {
+	springCloudVersion = 'Finchley.M8'
+}
+
+mainClassName = 'SqsConsumerApplication'
+
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok:1.18.20'
+	annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+	implementation ('org.springframework.boot:spring-boot-starter-web')
+	implementation ('org.springframework.cloud:spring-cloud-starter-aws-messaging')
+	implementation ('io.github.classgraph:classgraph:4.8.110')		//json serialization
+
+	implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'io.projectreactor:reactor-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 test {
 	useJUnitPlatform()
 }
+
+bootJar {
+	archiveBaseName = 'sqsConsumerApp'
+	archiveVersion =  '1.0.0'
+}
+
+task unpack(type: Copy) {
+	dependsOn bootJar
+	from(zipTree("build/libs/sqsConsumerApp-1.0.0.jar"))
+	into("build/dependency")
+}
+
+docker {
+	name "sqsconsumerapp"
+	copySpec.from(tasks.unpack.outputs).into("dependency")
+	buildArgs(['DEPENDENCY': "dependency"])
+}
+
+dockerRun {
+	name  "sqsConsumerApp"
+	image "sqsConsumerApp-1.0.0"
+	clean true
+}
+

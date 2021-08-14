@@ -13,10 +13,10 @@ set -e ;
 #Go to project root folder
 cd ../.. ;
 
-# #Build sqs_consumer microservice and its docker image
-# cd sqs_consumer ;
-# ./gradlew clean build docker -x test;
-# cd .. ;
+#Build sqs_consumer microservice and its docker image
+cd sqs_consumer ;
+./gradlew clean build docker -x test;
+cd .. ;
 
 #Build sqs_producer microservice and its docker image
 cd sqs_producer ;

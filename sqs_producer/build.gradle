@@ -60,6 +60,8 @@ dependencies {
 	implementation 'org.springdoc:springdoc-openapi-webflux-core:1.5.4'
 	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.5.4'
 
+	implementation group: 'io.github.classgraph', name: 'classgraph', version: '4.8.110'
+
 	implementation('org.springframework.cloud:spring-cloud-starter-aws-messaging')
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'

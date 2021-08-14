@@ -6,8 +6,32 @@ application:
   description: SQS consumer mcs
   title: SQS consumer mcs
 
+management:
+  endpoints:
+    web:
+      base-path: "/actuator"
+      exposure:
+        include: "*"
+      cors:
+        allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+        max-age: 3600s
+        #        allowed-origins: '*'
+        allow-credentials: true
+
+cloud:
+  aws:
+    region:
+      static: eu-central-1
+      auto: false
+    credentials:
+      access-key: notValidKey
+      secret-key: notValidSecret
+    end-point:
+      uri: http://sqs-queue:9324/queue/mqtt_queue
+
+
 mqtt-properties:
-  host: tcp://127.0.0.1:1883
+  host: tcp://mqtt-server:1883
   clientId: Server
   username: mosquitto
   password:

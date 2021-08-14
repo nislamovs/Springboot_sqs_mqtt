@@ -2,22 +2,22 @@ version: '3.3'
 
 services:
 
-#  mqtt-server:
-#    build:
-#      context: ./mqtt_docker
-#      dockerfile: Dockerfile
-##    volumes:
-##      - ./.docker/mosquitto/mosquitto_conf:/mosquitto/config
-##      - ./.docker/mosquitto/mosquitto_data:/mosquitto/data
-##      - ./.docker/mosquitto/mosquitto_log:/mosquitto/log
-#    environment:
-#      - MOSQUITTO_USERNAME=username
-#      - MOSQUITTO_PASSWORD=password
-#    container_name: eclipse-mosquitto
-#    restart: always
-#    ports:
-#      - 9001:9001
-#      - 1881:1883
+  mqtt-server:
+    build:
+      context: ./mqtt_docker
+      dockerfile: Dockerfile
+#    volumes:
+#      - ./.docker/mosquitto/mosquitto_conf:/mosquitto/config
+#      - ./.docker/mosquitto/mosquitto_data:/mosquitto/data
+#      - ./.docker/mosquitto/mosquitto_log:/mosquitto/log
+    environment:
+      - MOSQUITTO_USERNAME=username
+      - MOSQUITTO_PASSWORD=password
+    container_name: eclipse-mosquitto
+    restart: always
+    ports:
+      - 9001:9001
+      - 1883:1883
 
 #  mqtt-ui:
 #    image: hivemq/hivemq4
@@ -54,11 +54,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8081:8080'
-#
-#  sqs-consumer-app:
-#    container_name: sqs-consumer-app
-#    build:
-#      context: ./sqs_consumer
-#      dockerfile: Dockerfile
-#    ports:
-#      - '8082:8080'
+
+  sqs-consumer-app:
+    container_name: sqs-consumer-app
+    build:
+      context: ./sqs_consumer
+      dockerfile: Dockerfile
+    ports:
+      - '8082:8080'

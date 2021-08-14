@@ -45,5 +45,5 @@ public interface iMessageController {
           description = "Bad request",
           content = @Content)
   })
-  Mono<?> postMsg(@Parameter(description = "New product") final Mono<MessageDto> dto);
+  Mono<?> postMsg(@Parameter(description = "New product") final String text);
 }

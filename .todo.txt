@@ -1,7 +1,7 @@
 producer functionality
 -- webflux endpoints
--- spring sqs publisher
--- swagger
+-- spring sqs publisher                                                                  ok
+-- swagger                                                                               ok
 -- unit tests
 
 consumer functionality
@@ -11,8 +11,12 @@ consumer functionality
 readme
 
 -- mention mqtt explorer - installation guide
--- list of ports
--- building guidelines
--- tech stack
+-- list of ports                                                                         ok
+-- building guidelines                                                                   ok
+-- tech stack                                                                            ok
 
+
+Found issues:
+
+1. For unknown reason RequestBody not visible (empty)
 
