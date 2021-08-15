@@ -61,6 +61,9 @@ dependencies {
 	implementation ('io.github.classgraph:classgraph:4.8.110')		//json serialization
 
 	implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+//	implementation "org.springframework.integration:spring-integration-mqtt:5.2.1.RELEASE"
+
+
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 

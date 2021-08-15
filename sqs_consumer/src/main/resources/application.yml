@@ -29,14 +29,10 @@ cloud:
     end-point:
       uri: http://sqs-queue:9324/queue/mqtt_queue
 
-
-mqtt-properties:
-  host: tcp://mqtt-server:1883
-  clientId: Server
-  username: mosquitto
-  password:
-  cleanSession: false
-  connectionTimeout: 300
-  keepAliveInterval: 60
-  # If this property is set to true, the connection will be automatically reconnected when disconnected
+mqtt:
   automaticReconnect: true
+  cleanSession: true
+  connectionTimeout: 10
+  #clientId: ${COMPUTERNAME}-MQTT
+  clientId: TEST-MQTT
+  host: tcp://mqtt-server:1883

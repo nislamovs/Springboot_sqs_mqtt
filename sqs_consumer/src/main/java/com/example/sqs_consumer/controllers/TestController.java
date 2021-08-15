@@ -19,11 +19,17 @@ public class TestController {
 
   private final MqttService mqttService;
 
+  //http://localhost:8080/api/v1/mqtt/test
+
   @GetMapping("/mqtt/test")
   public ResponseEntity mqttTest() {
+    final String topic = "testamq/topic/event";
 
+    mqttService.subscribe(topic);
 
-    return ok().build();
+    mqttService.publish(topic, "Hi\nThis is a sample message from amq", 0, true);
+
+    return ok("Test ok!");
   }
 
 }
